@@ -1,0 +1,14 @@
+{
+  "name": "mindmap-generator-api",
+  "version": "1.0.0",
+  "description": "REST API for generating interactive mind maps",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": "18.x"
+  }
+}
