@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: Mind Map Generator API
+  description: Generate interactive mind map HTML files from user input
+  version: 1.0.0
+  contact:
+    name: Mind Map API
+    
+servers:
+  - url: https://mindmapper-gjrxezt6t-jaypojs-projects.vercel.app
+    description: Production server
+
+paths:
+  /api/generate-mindmap:
+    post:
+      summary: Generate interactive mind map
+      description: Creates an interactive mind map HTML file based on user input data
+      operationId: generateMindMap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: string
+                  description: The content to create a mind map from
+                  example: "vacation planning: book flights, reserve hotel, pack luggage, research attractions"
+            examples:
+              simple_list:
+                summary: Simple list example
+                value:
+                  data: "vacation planning: flights, hotel, packing, activities"
+              process_steps:
+                summary: Process steps example
+                value:
+                  data: "Project workflow: planning phase, design phase, development phase, testing phase, deployment"
+      responses:
+        '200':
+          description: Mind map generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the operation was successful
+                    example: true
+                  html:
+                    type: string
+                    description: Complete HTML file containing the interactive mind map
+                    example: "<!DOCTYPE html><html>...</html>"
+                  message:
+                    type: string
+                    description: Success message
+                    example: "Mind map generated successfully"
+        '400':
+          description: Bad request - missing or invalid data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Bad request"
+                  message:
+                    type: string
+                    example: "Please provide data in the request body"
+        '405':
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Method not allowed"
+                  message:
+                    type: string
+                    example: "This endpoint only accepts POST requests"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+                  message:
+                    type: string
+                    example: "Failed to generate mind map"
+
+components:
+  schemas:
+    MindMapRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string
+          description: The input data to convert into a mind map
+          
+    MindMapResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        html:
+          type: string
+        message:
+          type: string
+          
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
